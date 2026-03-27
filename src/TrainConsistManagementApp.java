@@ -1,9 +1,9 @@
 package TrainConsistManagementApp;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
-// Reuse Bogie class (same as UC7 & UC8)
+// Reuse Bogie class from previous UC
 class Bogie {
 
     private String type;
@@ -16,10 +16,6 @@ class Bogie {
     }
 
     // Getter
-    public String getType() {
-        return type;
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -32,47 +28,37 @@ class Bogie {
     }
 }
 
-// UC9 Main Class
-public class UC9_GroupBogies {
+// UC10 Main Class
+public class UC10_TotalSeats {
 
     public static void main(String[] args) {
 
-        // Step 1: Create Bogie List (reuse previous UC list)
-
+        // Step 1: Create bogie list
         List<Bogie> bogies = new ArrayList<>();
 
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("General", 90));
 
-        // Step 2: Convert list into Stream
-        // Step 3: Apply groupingBy()
+        // Step 2: Convert list to stream
+        // Step 3: Extract capacity using map()
+        // Step 4: Sum using reduce()
 
-        Map<String, List<Bogie>> groupedBogies =
+        int totalSeats =
                 bogies.stream()
-                        .collect(Collectors.groupingBy(
-                                b -> b.getType()
-                        ));
+                        .map(b -> b.getCapacity())
+                        .reduce(0, Integer::sum);
 
-        // Step 4: Display grouped bogies
+        // Step 5: Display total
 
-        System.out.println("Grouped Bogies by Type:");
-
-        for (String key : groupedBogies.keySet()) {
-
-            System.out.println("\nType: " + key);
-
-            List<Bogie> group = groupedBogies.get(key);
-
-            for (Bogie b : group) {
-                System.out.println(b);
-            }
-        }
-
-        // Verify original list unchanged
-        System.out.println("\nOriginal List Size: "
-                + bogies.size());
+        System.out.println(
+                "Total Seating Capacity: "
+                        + totalSeats
+        );
+        System.out.println(
+                "Total Bogies: "
+                        + bogies.size()
+        );
     }
 }
