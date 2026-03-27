@@ -1,70 +1,89 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-class Bogie {
+public class PassengerBogieTest {
 
-    String type;
-    int capacity;
+    @Test
+    void testException_ValidCapacityCreation()
+            throws InvalidCapacityException {
 
-    public Bogie(String type, int capacity) {
-        this.type = type;
-        this.capacity = capacity;
+        PassengerBogie bogie =
+                new PassengerBogie("Sleeper", 72);
+
+        assertNotNull(bogie);
     }
 
-    public int getCapacity() {
-        return capacity;
-    }
-}
+    @Test
+    void testException_NegativeCapacityThrowsException() {
 
-public class PerformanceComparisonApp {
+        Exception exception =
+                assertThrows(
+                        InvalidCapacityException.class,
+                        () -> new PassengerBogie("Sleeper", -10)
+                );
 
-    public static List<Bogie> loopFiltering(List<Bogie> bogies) {
-
-        List<Bogie> result = new ArrayList<>();
-
-        for (Bogie b : bogies) {
-            if (b.getCapacity() > 60) {
-                result.add(b);
-            }
-        }
-
-        return result;
+        assertEquals(
+                "Capacity must be greater than zero",
+                exception.getMessage()
+        );
     }
 
-    public static List<Bogie> streamFiltering(List<Bogie> bogies) {
+    @Test
+    void testException_ZeroCapacityThrowsException() {
 
-        return bogies.stream()
-                .filter(b -> b.getCapacity() > 60)
-                .collect(Collectors.toList());
+        Exception exception =
+                assertThrows(
+                        InvalidCapacityException.class,
+                        () -> new PassengerBogie("Sleeper", 0)
+                );
+
+        assertEquals(
+                "Capacity must be greater than zero",
+                exception.getMessage()
+        );
     }
 
-    public static void main(String[] args) {
+    @Test
+    void testException_ExceptionMessageValidation() {
 
-        List<Bogie> bogies = new ArrayList<>();
+        Exception exception =
+                assertThrows(
+                        InvalidCapacityException.class,
+                        () -> new PassengerBogie("Sleeper", -1)
+                );
 
-        for (int i = 0; i < 1000; i++) {
-            bogies.add(new Bogie("Sleeper", 72));
-            bogies.add(new Bogie("Chair", 50));
-            bogies.add(new Bogie("FirstClass", 40));
-        }
+        assertEquals(
+                "Capacity must be greater than zero",
+                exception.getMessage()
+        );
+    }
 
-        long startLoop = System.nanoTime();
-        List<Bogie> loopResult = loopFiltering(bogies);
-        long endLoop = System.nanoTime();
+    @Test
+    void testException_ObjectIntegrityAfterCreation()
+            throws InvalidCapacityException {
 
-        long loopTime = endLoop - startLoop;
+        PassengerBogie bogie =
+                new PassengerBogie("Sleeper", 72);
 
-        long startStream = System.nanoTime();
-        List<Bogie> streamResult = streamFiltering(bogies);
-        long endStream = System.nanoTime();
+        assertEquals("Sleeper", bogie.getType());
+        assertEquals(72, bogie.getCapacity());
+    }
 
-        long streamTime = endStream - startStream;
+    @Test
+    void testException_MultipleValidBogiesCreation()
+            throws InvalidCapacityException {
 
-        System.out.println("Loop Filtered Count: " + loopResult.size());
-        System.out.println("Stream Filtered Count: " + streamResult.size());
+        PassengerBogie b1 =
+                new PassengerBogie("Sleeper", 72);
 
-        System.out.println("Loop Execution Time (ns): " + loopTime);
-        System.out.println("Stream Execution Time (ns): " + streamTime);
+        PassengerBogie b2 =
+                new PassengerBogie("AC Chair", 60);
+
+        PassengerBogie b3 =
+                new PassengerBogie("First Class", 40);
+
+        assertNotNull(b1);
+        assertNotNull(b2);
+        assertNotNull(b3);
     }
 }
