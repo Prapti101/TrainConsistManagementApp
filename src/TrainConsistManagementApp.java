@@ -1,16 +1,34 @@
-class BogieSearch {
+import java.util.Arrays;
 
-    // Linear Search Method
+class BogieBinarySearch {
+
+    // Binary Search method with automatic sorting
     public boolean searchBogie(String[] bogieIds, String key) {
-        for (String id : bogieIds) {
-            if (id.equals(key)) {  // Compare using equals()
-                return true;       // Found
+        if (bogieIds == null || bogieIds.length == 0) return false;
+
+        // Ensure sorted
+        Arrays.sort(bogieIds);
+
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int cmp = key.compareTo(bogieIds[mid]);
+
+            if (cmp == 0) {
+                return true; // found
+            } else if (cmp < 0) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
-        return false;              // Not found
+
+        return false; // not found
     }
 
-    // Print result method
+    // Print search result
     public void printSearchResult(String key, boolean found) {
         if (found) {
             System.out.println("Bogie ID " + key + " found.");
