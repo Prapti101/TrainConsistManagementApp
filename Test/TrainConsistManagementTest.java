@@ -3,58 +3,48 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementTest {
 
-    // ✅ 1. Basic Sorting
+    // 1. Basic Alphabetical Sorting
     @Test
-    void testSort_BasicSorting() {
-        PassengerBogie pb = new PassengerBogie();
-
-        int[] input = {72, 56, 24, 70, 60};
-        int[] expected = {24, 56, 60, 70, 72};
-
-        assertArrayEquals(expected, pb.sortCapacities(input));
+    void testSort_BasicAlphabeticalSorting() {
+        BogieSorter sorter = new BogieSorter();
+        String[] input = {"Sleeper","AC Chair","First Class","General","Luxury"};
+        String[] expected = {"AC Chair","First Class","General","Luxury","Sleeper"};
+        assertArrayEquals(expected, sorter.sortBogieNames(input));
     }
 
-    // ✅ 2. Already Sorted
+    // 2. Unsorted Input
+    @Test
+    void testSort_UnsortedInput() {
+        BogieSorter sorter = new BogieSorter();
+        String[] input = {"Luxury","General","Sleeper","AC Chair"};
+        String[] expected = {"AC Chair","General","Luxury","Sleeper"};
+        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    }
+
+    // 3. Already Sorted Array
     @Test
     void testSort_AlreadySortedArray() {
-        PassengerBogie pb = new PassengerBogie();
-
-        int[] input = {24, 56, 60, 70, 72};
-        int[] expected = {24, 56, 60, 70, 72};
-
-        assertArrayEquals(expected, pb.sortCapacities(input));
+        BogieSorter sorter = new BogieSorter();
+        String[] input = {"AC Chair","First Class","General"};
+        String[] expected = {"AC Chair","First Class","General"};
+        assertArrayEquals(expected, sorter.sortBogieNames(input));
     }
 
-    // ✅ 3. Duplicate Values
+    // 4. Duplicate Bogie Names
     @Test
-    void testSort_DuplicateValues() {
-        PassengerBogie pb = new PassengerBogie();
-
-        int[] input = {72, 56, 56, 24};
-        int[] expected = {24, 56, 56, 72};
-
-        assertArrayEquals(expected, pb.sortCapacities(input));
+    void testSort_DuplicateBogieNames() {
+        BogieSorter sorter = new BogieSorter();
+        String[] input = {"Sleeper","AC Chair","Sleeper","General"};
+        String[] expected = {"AC Chair","General","Sleeper","Sleeper"};
+        assertArrayEquals(expected, sorter.sortBogieNames(input));
     }
 
-    // ✅ 4. Single Element
+    // 5. Single Element Array
     @Test
     void testSort_SingleElementArray() {
-        PassengerBogie pb = new PassengerBogie();
-
-        int[] input = {50};
-        int[] expected = {50};
-
-        assertArrayEquals(expected, pb.sortCapacities(input));
-    }
-
-    // ✅ 5. All Equal Values
-    @Test
-    void testSort_AllEqualValues() {
-        PassengerBogie pb = new PassengerBogie();
-
-        int[] input = {40, 40, 40};
-        int[] expected = {40, 40, 40};
-
-        assertArrayEquals(expected, pb.sortCapacities(input));
+        BogieSorter sorter = new BogieSorter();
+        String[] input = {"Sleeper"};
+        String[] expected = {"Sleeper"};
+        assertArrayEquals(expected, sorter.sortBogieNames(input));
     }
 }
