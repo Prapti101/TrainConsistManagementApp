@@ -1,12 +1,15 @@
 import java.util.Arrays;
 
-class BogieBinarySearch {
+class BogieSearchWithValidation {
 
-    // Binary Search method with automatic sorting
+    // Search with defensive validation
     public boolean searchBogie(String[] bogieIds, String key) {
-        if (bogieIds == null || bogieIds.length == 0) return false;
+        // Defensive programming: check empty array
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("Cannot search: No bogies exist in the train.");
+        }
 
-        // Ensure sorted
+        // Optional: sort before binary search if required
         Arrays.sort(bogieIds);
 
         int low = 0;
@@ -28,7 +31,7 @@ class BogieBinarySearch {
         return false; // not found
     }
 
-    // Print search result
+    // Print result method
     public void printSearchResult(String key, boolean found) {
         if (found) {
             System.out.println("Bogie ID " + key + " found.");

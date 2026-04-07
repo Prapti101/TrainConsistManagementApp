@@ -3,59 +3,46 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementTest {
 
-    // 1. Bogie Found
+    // 1. Exception when array is empty
     @Test
-    void testBinarySearch_BogieFound() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
-        assertTrue(search.searchBogie(bogies, "BG309"));
+    void testSearch_ThrowsExceptionWhenEmpty() {
+        BogieSearchWithValidation search = new BogieSearchWithValidation();
+        String[] bogies = {};
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            search.searchBogie(bogies, "BG101");
+        });
+        assertEquals("Cannot search: No bogies exist in the train.", exception.getMessage());
     }
 
-    // 2. Bogie Not Found
+    // 2. Allows search when data exists
     @Test
-    void testBinarySearch_BogieNotFound() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
+    void testSearch_AllowsSearchWhenDataExists() {
+        BogieSearchWithValidation search = new BogieSearchWithValidation();
+        String[] bogies = {"BG101","BG205"};
+        assertDoesNotThrow(() -> search.searchBogie(bogies, "BG101"));
+    }
+
+    // 3. Bogie found after validation
+    @Test
+    void testSearch_BogieFoundAfterValidation() {
+        BogieSearchWithValidation search = new BogieSearchWithValidation();
+        String[] bogies = {"BG101","BG205","BG309"};
+        assertTrue(search.searchBogie(bogies, "BG205"));
+    }
+
+    // 4. Bogie not found after validation
+    @Test
+    void testSearch_BogieNotFoundAfterValidation() {
+        BogieSearchWithValidation search = new BogieSearchWithValidation();
+        String[] bogies = {"BG101","BG205","BG309"};
         assertFalse(search.searchBogie(bogies, "BG999"));
     }
 
-    // 3. First Element Match
+    // 5. Single element valid case
     @Test
-    void testBinarySearch_FirstElementMatch() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
-        assertTrue(search.searchBogie(bogies, "BG101"));
-    }
-
-    // 4. Last Element Match
-    @Test
-    void testBinarySearch_LastElementMatch() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
-        assertTrue(search.searchBogie(bogies, "BG550"));
-    }
-
-    // 5. Single Element Array
-    @Test
-    void testBinarySearch_SingleElementArray() {
-        BogieBinarySearch search = new BogieBinarySearch();
+    void testSearch_SingleElementValidCase() {
+        BogieSearchWithValidation search = new BogieSearchWithValidation();
         String[] bogies = {"BG101"};
         assertTrue(search.searchBogie(bogies, "BG101"));
-    }
-
-    // 6. Empty Array
-    @Test
-    void testBinarySearch_EmptyArray() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {};
-        assertFalse(search.searchBogie(bogies, "BG101"));
-    }
-
-    // 7. Unsorted Input Handled
-    @Test
-    void testBinarySearch_UnsortedInputHandled() {
-        BogieBinarySearch search = new BogieBinarySearch();
-        String[] bogies = {"BG309","BG101","BG550","BG205","BG412"};
-        assertTrue(search.searchBogie(bogies, "BG205"));
     }
 }
