@@ -1,13 +1,21 @@
-import java.util.Arrays;
+class BogieSearch {
 
-class BogieSorter {
-
-    public String[] sortBogieNames(String[] bogieNames) {
-        Arrays.sort(bogieNames); // Built-in sort
-        return bogieNames;
+    // Linear Search Method
+    public boolean searchBogie(String[] bogieIds, String key) {
+        for (String id : bogieIds) {
+            if (id.equals(key)) {  // Compare using equals()
+                return true;       // Found
+            }
+        }
+        return false;              // Not found
     }
 
-    public void printBogieNames(String[] bogieNames) {
-        System.out.println(Arrays.toString(bogieNames));
+    // Print result method
+    public void printSearchResult(String key, boolean found) {
+        if (found) {
+            System.out.println("Bogie ID " + key + " found.");
+        } else {
+            System.out.println("Bogie ID " + key + " not found.");
+        }
     }
 }

@@ -3,48 +3,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementTest {
 
-    // 1. Basic Alphabetical Sorting
+    // 1. Bogie Found
     @Test
-    void testSort_BasicAlphabeticalSorting() {
-        BogieSorter sorter = new BogieSorter();
-        String[] input = {"Sleeper","AC Chair","First Class","General","Luxury"};
-        String[] expected = {"AC Chair","First Class","General","Luxury","Sleeper"};
-        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    void testSearch_BogieFound() {
+        BogieSearch search = new BogieSearch();
+        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
+        assertTrue(search.searchBogie(bogies, "BG309"));
     }
 
-    // 2. Unsorted Input
+    // 2. Bogie Not Found
     @Test
-    void testSort_UnsortedInput() {
-        BogieSorter sorter = new BogieSorter();
-        String[] input = {"Luxury","General","Sleeper","AC Chair"};
-        String[] expected = {"AC Chair","General","Luxury","Sleeper"};
-        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    void testSearch_BogieNotFound() {
+        BogieSearch search = new BogieSearch();
+        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
+        assertFalse(search.searchBogie(bogies, "BG999"));
     }
 
-    // 3. Already Sorted Array
+    // 3. First Element Match
     @Test
-    void testSort_AlreadySortedArray() {
-        BogieSorter sorter = new BogieSorter();
-        String[] input = {"AC Chair","First Class","General"};
-        String[] expected = {"AC Chair","First Class","General"};
-        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    void testSearch_FirstElementMatch() {
+        BogieSearch search = new BogieSearch();
+        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
+        assertTrue(search.searchBogie(bogies, "BG101"));
     }
 
-    // 4. Duplicate Bogie Names
+    // 4. Last Element Match
     @Test
-    void testSort_DuplicateBogieNames() {
-        BogieSorter sorter = new BogieSorter();
-        String[] input = {"Sleeper","AC Chair","Sleeper","General"};
-        String[] expected = {"AC Chair","General","Sleeper","Sleeper"};
-        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    void testSearch_LastElementMatch() {
+        BogieSearch search = new BogieSearch();
+        String[] bogies = {"BG101","BG205","BG309","BG412","BG550"};
+        assertTrue(search.searchBogie(bogies, "BG550"));
     }
 
     // 5. Single Element Array
     @Test
-    void testSort_SingleElementArray() {
-        BogieSorter sorter = new BogieSorter();
-        String[] input = {"Sleeper"};
-        String[] expected = {"Sleeper"};
-        assertArrayEquals(expected, sorter.sortBogieNames(input));
+    void testSearch_SingleElementArray() {
+        BogieSearch search = new BogieSearch();
+        String[] bogies = {"BG101"};
+        assertTrue(search.searchBogie(bogies, "BG101"));
     }
 }
