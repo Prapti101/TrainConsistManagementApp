@@ -1,89 +1,21 @@
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+class PassengerBogie {
 
-public class PassengerBogieTest {
+    // Bubble Sort Method
+    public int[] sortCapacities(int[] capacities) {
 
-    @Test
-    void testException_ValidCapacityCreation()
-            throws InvalidCapacityException {
+        int n = capacities.length;
 
-        PassengerBogie bogie =
-                new PassengerBogie("Sleeper", 72);
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
 
-        assertNotNull(bogie);
-    }
-
-    @Test
-    void testException_NegativeCapacityThrowsException() {
-
-        Exception exception =
-                assertThrows(
-                        InvalidCapacityException.class,
-                        () -> new PassengerBogie("Sleeper", -10)
-                );
-
-        assertEquals(
-                "Capacity must be greater than zero",
-                exception.getMessage()
-        );
-    }
-
-    @Test
-    void testException_ZeroCapacityThrowsException() {
-
-        Exception exception =
-                assertThrows(
-                        InvalidCapacityException.class,
-                        () -> new PassengerBogie("Sleeper", 0)
-                );
-
-        assertEquals(
-                "Capacity must be greater than zero",
-                exception.getMessage()
-        );
-    }
-
-    @Test
-    void testException_ExceptionMessageValidation() {
-
-        Exception exception =
-                assertThrows(
-                        InvalidCapacityException.class,
-                        () -> new PassengerBogie("Sleeper", -1)
-                );
-
-        assertEquals(
-                "Capacity must be greater than zero",
-                exception.getMessage()
-        );
-    }
-
-    @Test
-    void testException_ObjectIntegrityAfterCreation()
-            throws InvalidCapacityException {
-
-        PassengerBogie bogie =
-                new PassengerBogie("Sleeper", 72);
-
-        assertEquals("Sleeper", bogie.getType());
-        assertEquals(72, bogie.getCapacity());
-    }
-
-    @Test
-    void testException_MultipleValidBogiesCreation()
-            throws InvalidCapacityException {
-
-        PassengerBogie b1 =
-                new PassengerBogie("Sleeper", 72);
-
-        PassengerBogie b2 =
-                new PassengerBogie("AC Chair", 60);
-
-        PassengerBogie b3 =
-                new PassengerBogie("First Class", 40);
-
-        assertNotNull(b1);
-        assertNotNull(b2);
-        assertNotNull(b3);
+                if (capacities[j] > capacities[j + 1]) {
+                    // swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+        return capacities;
     }
 }
